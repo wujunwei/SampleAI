@@ -75,6 +75,14 @@ public class HAHATeam : AIBase
 
 
         }
+        //追踪
+        var BestEnemies = state["enemies"].Children();
+        var BestEnemy = BestEnemies.OrderBy(b => Distance(me, b));
+        if (BestEnemy.Concat() > 0)
+        {
+
+        }
+
 
         var enemies = state["enemies"] as JArray;
         for (int i = 0; i < enemies.Count; i++)
