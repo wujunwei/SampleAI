@@ -51,7 +51,7 @@ public class DefaultTea : AIBase
             float z = pickups.OrderBy(b => Distance(me, b))
                 .Select(b => (float)b["pos"]["z"])
                 .FirstOrDefault();
-            UnityEngine.Debug.Log("x:" + x + " z:" + z);
+           // UnityEngine.Debug.Log("x:" + x + " z:" + z);
             Move(x, z);
         }
         else { Move(50, 50); }
@@ -61,7 +61,7 @@ public class DefaultTea : AIBase
             var enemy = enemies[i];
             float x = (float)enemy["pos"]["x"];
             float z = (float)enemy["pos"]["z"];
-            if ((int)me["skills"][1] == 0)
+            if ((int)me["skills"][1] == 0&&Distance(me,enemy)<10*10)
             {
 
                 UseSkill(1);
