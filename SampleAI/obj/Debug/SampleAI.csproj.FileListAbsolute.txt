@@ -1,0 +1,9 @@
+c:\users\administrator\documents\visual studio 2012\Projects\SampleAI\SampleAI\bin\Debug\SampleAI.dll
+c:\users\administrator\documents\visual studio 2012\Projects\SampleAI\SampleAI\bin\Debug\SampleAI.pdb
+c:\users\administrator\documents\visual studio 2012\Projects\SampleAI\SampleAI\bin\Debug\TuringCup.dll
+c:\users\administrator\documents\visual studio 2012\Projects\SampleAI\SampleAI\bin\Debug\Unity.Json.NET.dll
+c:\users\administrator\documents\visual studio 2012\Projects\SampleAI\SampleAI\bin\Debug\UnityEngine.dll
+c:\users\administrator\documents\visual studio 2012\Projects\SampleAI\SampleAI\bin\Debug\UnityEngine.xml
+c:\users\administrator\documents\visual studio 2012\Projects\SampleAI\SampleAI\obj\Debug\SampleAI.csprojResolveAssemblyReference.cache
+c:\users\administrator\documents\visual studio 2012\Projects\SampleAI\SampleAI\obj\Debug\SampleAI.dll
+c:\users\administrator\documents\visual studio 2012\Projects\SampleAI\SampleAI\obj\Debug\SampleAI.pdb
