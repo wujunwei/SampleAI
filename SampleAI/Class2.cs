@@ -66,7 +66,10 @@ public class DefaultTea : AIBase
 
                 UseSkill(1);
             }
-            else { UseSkill(0, (int)enemy["index"]); }
+            else 
+            { 
+                UseSkill(0, x, z); 
+            }
         }
 
     }

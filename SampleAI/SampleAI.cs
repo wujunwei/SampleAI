@@ -45,36 +45,7 @@ public class HAHATeam : AIBase
 
         //UnityEngine.Debug.Log("X:" + x1 + " Y:" + z1);
         var targets = state["barrels"].Children();
-        var targets2 = state["pickups"].Children();
-
-
-        if (targets2.Count() > 0)
-        {
-            if ((float)me["hp"] > 50.0f)
-            {
-                var target2 = targets2.OrderBy(b => Distance(me, b)).Where(b => (int)b["type"] != 1).Select(b => b["pos"])
-                 .ToArray();
-                if (target2.Count() > 0)
-                {
-                    float a = (float)target2[0]["x"];
-                    float c = (float)target2[0]["z"];
-                    Move(a, c);
-                }
-            }
-            else
-            {
-                var target2 = targets2.OrderBy(b => Distance(me, b)).Select(b => b["pos"])
-                 .ToArray();
-                if (target2.Count() > 0)
-                {
-                    float a = (float)target2[0]["x"];
-                    float c = (float)target2[0]["z"];
-                    Move(a, c);
-                }
-            }
-
-
-        }
+        
         //追踪
         var BestEnemies = state["enemies"].Children();
         var BestEnemy = BestEnemies.OrderBy(b => Distance(me, b)).Where(b => ((int)b["state"]&1) !=1).ToArray();
@@ -86,6 +57,26 @@ public class HAHATeam : AIBase
             switch((int)enemy["type"])
             {
                 case 0:{
+                    if ((int)me["hp"] < (int)enemy["hp"])
+                    {
+                        break;
+                    }
+
+                    float distance = (float)System.Math.Sqrt(Distance(me, enemy));
+                    float increaseX = x1 - enemyX;
+                    float increaseZ = z1 - enemyZ;
+                    if (increaseX == 0.0f)
+                    {
+                        float trueZ = enemyZ > z1 ? (enemyZ - 9) : (enemyZ + 9);
+                        Move(x1, trueZ);
+                    }
+                    else
+                    {
+                        float trueX = enemyX + increaseX * 9 / distance;
+                        float trueZ = enemyZ + increaseZ * 9 / distance;
+                        if (trueX > 0 && trueZ > 0)
+                            Move(trueX, trueZ);
+                    }
                     break;
                 }
                 case 1:{
@@ -94,6 +85,10 @@ public class HAHATeam : AIBase
                 case 2:
                 {
                     //UnityEngine.Debug.Log("Tyor");
+                    if ((int)me["hp"] < (int)enemy["hp"])
+                    {
+                        break;
+                    }
                     float distance = (float)System.Math.Sqrt(Distance(me, enemy));
                     float increaseX = x1 - enemyX;
                     float increaseZ = z1 - enemyZ;
@@ -139,6 +134,35 @@ public class HAHATeam : AIBase
             }
         }
 
+        //吃道具
+        var targets2 = state["pickups"].Children();
+        if (targets2.Count() > 0)
+        {
+            if ((float)me["hp"] > 50.0f)
+            {
+                var target2 = targets2.OrderBy(b => Distance(me, b)).Where(b => (int)b["type"] != 1).Select(b => b["pos"])
+                 .ToArray();
+                if (target2.Count() > 0)
+                {
+                    float a = (float)target2[0]["x"];
+                    float c = (float)target2[0]["z"];
+                    Move(a, c);
+                }
+            }
+            else
+            {
+                var target2 = targets2.OrderBy(b => Distance(me, b)).Select(b => b["pos"])
+                 .ToArray();
+                if (target2.Count() > 0)
+                {
+                    float a = (float)target2[0]["x"];
+                    float c = (float)target2[0]["z"];
+                    Move(a, c);
+                }
+            }
+
+
+        }
 
         var enemies = state["enemies"] as JArray;
         for (int i = 0; i < enemies.Count; i++)
@@ -171,7 +195,6 @@ public class HAHATeam : AIBase
                 }
                 if (Distance(me, enemy) < shootRange * shootRange)
                 {
-                    // UnityEngine.Debug.Log("enemyposition X:" + enemy["pos"]["x"] + " z:" + enemy["pos"]["z"] + " myposition X:" + me["pos"]["x"] + "Z:" + me["pos"]["z"]);
                     UseSkill(0, (int)enemy["index"]);
                 }
             }
