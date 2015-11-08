@@ -58,11 +58,7 @@ public class otherTeam : AIBase
             {
                 case 0:
                     {
-                        if ((int)me["hp"] < (int)enemy["hp"])
-                        {
-                            break;
-                        }
-
+                       
                         float distance = (float)System.Math.Sqrt(Distance(me, enemy));
                         float increaseX = x1 - enemyX;
                         float increaseZ = z1 - enemyZ;
@@ -87,10 +83,7 @@ public class otherTeam : AIBase
                 case 2:
                     {
                         //UnityEngine.Debug.Log("Tyor");
-                        if ((int)me["hp"] < (int)enemy["hp"])
-                        {
-                            break;
-                        }
+                        
                         float distance = (float)System.Math.Sqrt(Distance(me, enemy));
                         float increaseX = x1 - enemyX;
                         float increaseZ = z1 - enemyZ;
