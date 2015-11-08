@@ -45,34 +45,7 @@ public class HAHATeam : AIBase
 
         //UnityEngine.Debug.Log("X:" + x1 + " Y:" + z1);
         var targets = state["barrels"].Children();
-        var targets2 = state["pickups"].Children();
-        if (targets2.Count() > 0)
-        {
-            if ((float)me["hp"] > 50.0f)
-            {
-                var target2 = targets2.OrderBy(b => Distance(me, b)).Where(b => (int)b["type"] != 1).Select(b => b["pos"])
-                 .ToArray();
-                if (target2.Count() > 0)
-                {
-                    float a = (float)target2[0]["x"];
-                    float c = (float)target2[0]["z"];
-                    Move(a, c);
-                }
-            }
-            else
-            {
-                var target2 = targets2.OrderBy(b => Distance(me, b)).Select(b => b["pos"])
-                 .ToArray();
-                if (target2.Count() > 0)
-                {
-                    float a = (float)target2[0]["x"];
-                    float c = (float)target2[0]["z"];
-                    Move(a, c);
-                }
-            }
-
-
-        }
+       
         //追踪
         var BestEnemies = state["enemies"].Children();
         var BestEnemy = BestEnemies.OrderBy(b => Distance(me, b)).Where(b => ((int)b["state"]&1) !=1).ToArray();
@@ -84,7 +57,7 @@ public class HAHATeam : AIBase
             switch((int)enemy["type"])
             {
                 case 0:{
-                    if ((int)me["hp"] < (int)enemy["hp"])
+                    if ((float)me["hp"] < (float)enemy["hp"])
                     {
                         break;
                     }
@@ -157,7 +130,33 @@ public class HAHATeam : AIBase
                 }
             }
         }
-
+        //吃道具
+        var targets2 = state["pickups"].Children();
+        if (targets2.Count() > 0)
+        {
+            if ((float)me["hp"] > 50.0f)
+            {
+                var target2 = targets2.OrderBy(b => Distance(me, b)).Where(b => (int)b["type"] != 1).Select(b => b["pos"])
+                 .ToArray();
+                if (target2.Count() > 0)
+                {
+                    float a = (float)target2[0]["x"];
+                    float c = (float)target2[0]["z"];
+                    Move(a, c);
+                }
+            }
+            else
+            {
+                var target2 = targets2.OrderBy(b => Distance(me, b)).Select(b => b["pos"])
+                 .ToArray();
+                if (target2.Count() > 0)
+                {
+                    float a = (float)target2[0]["x"];
+                    float c = (float)target2[0]["z"];
+                    Move(a, c);
+                }
+            }
+        }
 
         var enemies = state["enemies"] as JArray;
         for (int i = 0; i < enemies.Count; i++)
