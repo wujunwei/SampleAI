@@ -75,6 +75,27 @@ public class HAHATeam : AIBase
                     break;
                 }
                 case 1:{
+                    if ((int)me["hp"] > (int)enemy["hp"])
+                    {
+                        float distance = (float)System.Math.Sqrt(Distance(me, enemy));
+                        float increaseX = x1 - enemyX;
+                        float increaseZ = z1 - enemyZ;
+
+                        if (increaseX == 0.0f)
+                        {
+                            float trueZ = enemyZ > z1 ? (enemyZ - 8) : (enemyZ + 8);
+                            Move(x1, trueZ);
+                        }
+                        else
+                        {
+                            float trueX = enemyX + increaseX * 8 / distance;
+                            float trueZ = enemyZ + increaseZ * 8 / distance;
+                            if (trueX > 0 && trueZ > 0)
+                                Move(trueX, trueZ);
+                        }
+
+                    }
+                   
                     break;
                 }
                 case 2:
