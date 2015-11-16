@@ -7,8 +7,8 @@
     <ProjectGuid>{9EA8E80B-79E0-4A62-8D7B-2B298DE8F2B1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SampleAI</RootNamespace>
-    <AssemblyName>SampleAI</AssemblyName>
+    <RootNamespace>NULL</RootNamespace>
+    <AssemblyName>NULL</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,13 +36,16 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TuringCup">
+    <Reference Include="TuringCup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\win7我的文档-桌面-收藏夹\Desktop\各种工作文档\core_1.1.0\TuringCup.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Json.NET">
+    <Reference Include="Unity.Json.NET, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\win7我的文档-桌面-收藏夹\Desktop\各种工作文档\core_1.1.0\Unity.Json.NET.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine">
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>F:\build\TuringCup_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>

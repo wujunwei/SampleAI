@@ -24,7 +24,7 @@ public class HAHATeam : AIBase
     }
 
     private float shootRange = 10;
-    private float BigRange = 15;
+    private float BigRange = 12;
     protected override void Act(JObject state)
     {
         var me = state["me"];
@@ -43,7 +43,6 @@ public class HAHATeam : AIBase
         if (50 <= x1 && x1 < 70 && 30 < z1 && z1 < 50) Move(70, 50);
         if (50 < x1 && x1 < 70 && 50 <= z1 && z1 < 70) Move(50, 70);
 
-        //UnityEngine.Debug.Log("X:" + x1 + " Y:" + z1);
         var targets = state["barrels"].Children();
        
         //追踪
@@ -57,10 +56,6 @@ public class HAHATeam : AIBase
             switch((int)enemy["type"])
             {
                 case 0:{
-                    if ((float)me["hp"] < (float)enemy["hp"])
-                    {
-                        break;
-                    }
 
                     float distance = (float)System.Math.Sqrt(Distance(me, enemy));
                     float increaseX = x1 - enemyX;
@@ -89,6 +84,7 @@ public class HAHATeam : AIBase
                     float distance = (float)System.Math.Sqrt(Distance(me, enemy));
                     float increaseX = x1 - enemyX;
                     float increaseZ = z1 - enemyZ;
+
                     if (increaseX == 0.0f)
                     {
                         float trueZ = enemyZ > z1 ? (enemyZ - 9) : (enemyZ + 9);
@@ -123,6 +119,7 @@ public class HAHATeam : AIBase
                             Move(trueX, trueZ);
                     }
                     
+
                     break;
                 }
                 default:{
@@ -169,7 +166,7 @@ public class HAHATeam : AIBase
             float distan = Distance(me, enemy);
             if (distan > BigRange * BigRange)
             {
-                if (distan > 21*21)
+                if (distan > 20*20)
                 {
                     continue;
                 }
@@ -194,6 +191,7 @@ public class HAHATeam : AIBase
             }
  
         }
+
         if (targets.Count() > 0)
         {
             var target = targets.OrderBy(b => Distance(me, b)).Where(b => Distance(me, b) < shootRange * shootRange).Select(b => (int)b["index"])
@@ -215,8 +213,8 @@ public class HAHATeam : AIBase
     }
     private float[] maxskill(float x1, float z1, float x2, float z2)
     {
-        float x = (float)(x1 + 15 * (x2 - x1) / System.Math.Sqrt((x2 - x1) * (x2 - x1) + (z2 - z1) * (z2 - z1)));
-        float z = (float)(z1 + 15 * (z2 - z1) / System.Math.Sqrt((x2 - x1) * (x2 - x1) + (z2 - z1) * (z2 - z1)));
+        float x = (float)(x1 + 12 * (x2 - x1) / System.Math.Sqrt((x2 - x1) * (x2 - x1) + (z2 - z1) * (z2 - z1)));
+        float z = (float)(z1 + 12 * (z2 - z1) / System.Math.Sqrt((x2 - x1) * (x2 - x1) + (z2 - z1) * (z2 - z1)));
         float[] a = { x, z };
         return a;
     }

@@ -30,19 +30,19 @@ public class HATeam : AIBase
         var me = state["me"];
         float x1 = (float)me["pos"]["x"];
         float z1 = (float)me["pos"]["z"];
-        /* if (x1 < 30 && z1 < 70) Move(30, 30);
-         if (x1 > 30 && z1 < 30) Move(70, 30);
-         if (x1 > 70 && z1 > 30) Move(70, 70);
-         if (x1 < 70 && z1 > 70) Move(30, 70);
-         if (x1 == 30 && z1 != 30) Move(30, 30);
-         if (x1 == 70 && z1 != 70) Move(70, 70);
-         if (z1 == 70 && x1 != 30) Move(30, 70);
-         if (z1 == 30 && x1 != 70) Move(70, 30);
+        if (x1 < 30 && z1 < 70) Move(30, 70);
+         if (x1 > 30 && z1 < 30) Move(30, 30);
+         if (x1 > 70 && z1 > 30) Move(70, 30);
+         if (x1 < 70 && z1 > 70) Move(70, 70);
+         if (x1 == 30 && z1 != 30) Move(30, 70);
+         if (x1 == 70 && z1 != 70) Move(70, 30);
+         if (z1 == 70 && x1 != 30) Move(70, 70);
+         if (z1 == 30 && x1 != 70) Move(30, 30);
          if (30 < x1 && x1 <= 50 && 50 < z1 && z1 < 70) Move(30, 50);
          if (30 < x1 && x1 < 50 && 30 < z1 && z1 <= 50) Move(50, 30);
          if (50 <= x1 && x1 < 70 && 30 < z1 && z1 < 50) Move(70, 50);
-         if (50 < x1 && x1 < 70 && 50 <= z1 && z1 < 70) Move(50, 70);*/
-        Move(50, 50);
+         if (50 < x1 && x1 < 70 && 50 <= z1 && z1 < 70) Move(50, 70);
+        //Move(50, 50);
 
         //UnityEngine.Debug.Log("X:" + x1 + " Y:" + z1);
         var targets = state["barrels"].Children();
@@ -110,6 +110,8 @@ public class HATeam : AIBase
             }
             else
             {
+                Move(x2, z2);
+
                 float x3 = (float)me["pos"]["x"];
                 float z3 = (float)me["pos"]["z"];
 
