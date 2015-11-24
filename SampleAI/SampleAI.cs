@@ -11,7 +11,7 @@ public class HAHATeam : AIBase
     {
         get
         {
-            return "NULL";
+            return "void0";
         }
     }
 

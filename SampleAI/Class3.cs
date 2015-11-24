@@ -1,16 +1,17 @@
 ﻿using System.Linq;
 using TuringCup;
 using Newtonsoft.Json.Linq;
-public class DefaultTea : AIBase
+
+public class AHATeam : AIBase
 {
 
-    public DefaultTea(int a_index) : base(a_index) { }
+    public AHATeam(int a_index) : base(a_index) { }
 
     public override string TeamName
     {
         get
         {
-            return "bing";
+            return "NULL";
         }
     }
 
@@ -18,27 +19,25 @@ public class DefaultTea : AIBase
     {
         get
         {
-            return Character.Yui;
+            return Character.Locky;
         }
     }
 
     private float shootRange = 10;
-    
-    private float BigRange = 10;
-
+    private float BigRange = 12;
     protected override void Act(JObject state)
     {
         var me = state["me"];
         float x1 = (float)me["pos"]["x"];
         float z1 = (float)me["pos"]["z"];
-        if (x1 < 30 && z1 < 70) Move(30, 70);
-        if (x1 > 30 && z1 < 30) Move(30, 30);
-        if (x1 > 70 && z1 > 30) Move(70, 30);
-        if (x1 < 70 && z1 > 70) Move(70, 70);
-        if (x1 == 30 && z1 != 30) Move(30, 70);
-        if (x1 == 70 && z1 != 70) Move(70, 30);
-        if (z1 == 70 && x1 != 30) Move(70, 70);
-        if (z1 == 30 && x1 != 70) Move(30, 30);
+        if (x1 < 30 && z1 < 70) Move(30, 30);
+        if (x1 > 30 && z1 < 30) Move(70, 30);
+        if (x1 > 70 && z1 > 30) Move(70, 70);
+        if (x1 < 70 && z1 > 70) Move(30, 70);
+        if (x1 == 30 && z1 != 30) Move(30, 30);
+        if (x1 == 70 && z1 != 70) Move(70, 70);
+        if (z1 == 70 && x1 != 30) Move(30, 70);
+        if (z1 == 30 && x1 != 70) Move(70, 30);
         if (30 < x1 && x1 <= 50 && 50 < z1 && z1 < 70) Move(30, 50);
         if (30 < x1 && x1 < 50 && 30 < z1 && z1 <= 50) Move(50, 30);
         if (50 <= x1 && x1 < 70 && 30 < z1 && z1 < 50) Move(70, 50);
@@ -58,10 +57,6 @@ public class DefaultTea : AIBase
             {
                 case 0:
                     {
-                        if ((float)me["hp"] < (float)enemy["hp"])
-                        {
-                            break;
-                        }
 
                         float distance = (float)System.Math.Sqrt(Distance(me, enemy));
                         float increaseX = x1 - enemyX;
@@ -82,6 +77,27 @@ public class DefaultTea : AIBase
                     }
                 case 1:
                     {
+                        if ((int)me["hp"] > (int)enemy["hp"])
+                        {
+                            float distance = (float)System.Math.Sqrt(Distance(me, enemy));
+                            float increaseX = x1 - enemyX;
+                            float increaseZ = z1 - enemyZ;
+
+                            if (increaseX == 0.0f)
+                            {
+                                float trueZ = enemyZ > z1 ? (enemyZ - 8) : (enemyZ + 8);
+                                Move(x1, trueZ);
+                            }
+                            else
+                            {
+                                float trueX = enemyX + increaseX * 8 / distance;
+                                float trueZ = enemyZ + increaseZ * 8 / distance;
+                                if (trueX > 0 && trueZ > 0)
+                                    Move(trueX, trueZ);
+                            }
+
+                        }
+
                         break;
                     }
                 case 2:
@@ -91,6 +107,7 @@ public class DefaultTea : AIBase
                         float distance = (float)System.Math.Sqrt(Distance(me, enemy));
                         float increaseX = x1 - enemyX;
                         float increaseZ = z1 - enemyZ;
+
                         if (increaseX == 0.0f)
                         {
                             float trueZ = enemyZ > z1 ? (enemyZ - 9) : (enemyZ + 9);
@@ -124,6 +141,7 @@ public class DefaultTea : AIBase
                             if (trueX > 0 && trueZ > 0)
                                 Move(trueX, trueZ);
                         }
+
 
                         break;
                     }
@@ -172,38 +190,39 @@ public class DefaultTea : AIBase
             float distan = Distance(me, enemy);
             if (distan > BigRange * BigRange)
             {
-                if (distan > 10* 10)
+                if (distan > 20 * 20)
                 {
                     continue;
                 }
-               
+                float[] a = maxskill(x1, z1, x2, z2);
+                float x = a[0];
+                float z = a[1];
                 if ((int)me["skills"][1] == 0)
                 {
-                    UseSkill(1);
+                    UseSkill(1, x, z);
                 }
             }
             else
             {
                 if ((int)me["skills"][1] == 0)
                 {
-                    UseSkill(1);
+                    UseSkill(1, x2, z2);
                 }
                 if (Distance(me, enemy) < shootRange * shootRange)
                 {
-                    UseSkill(0, x2,z2);
+                    UseSkill(0, (int)enemy["index"]);
                 }
             }
 
         }
+
         if (targets.Count() > 0)
         {
-            var target = targets.OrderBy(b => Distance(me, b)).Where(b => Distance(me, b) < shootRange * shootRange).Select(b => b["pos"])
-                  .ToArray();
+            var target = targets.OrderBy(b => Distance(me, b)).Where(b => Distance(me, b) < shootRange * shootRange).Select(b => (int)b["index"])
+            .ToArray();
             if (target.Count() > 0)
             {
-                float a = (float)target[0]["x"];
-                float c = (float)target[0]["z"];
-                UseSkill(0, a, c);
+                UseSkill(0, target[0]);
             }
 
         }
@@ -218,8 +237,8 @@ public class DefaultTea : AIBase
     }
     private float[] maxskill(float x1, float z1, float x2, float z2)
     {
-        float x = (float)(x1 + 15 * (x2 - x1) / System.Math.Sqrt((x2 - x1) * (x2 - x1) + (z2 - z1) * (z2 - z1)));
-        float z = (float)(z1 + 15 * (z2 - z1) / System.Math.Sqrt((x2 - x1) * (x2 - x1) + (z2 - z1) * (z2 - z1)));
+        float x = (float)(x1 + 12 * (x2 - x1) / System.Math.Sqrt((x2 - x1) * (x2 - x1) + (z2 - z1) * (z2 - z1)));
+        float z = (float)(z1 + 12 * (z2 - z1) / System.Math.Sqrt((x2 - x1) * (x2 - x1) + (z2 - z1) * (z2 - z1)));
         float[] a = { x, z };
         return a;
     }
