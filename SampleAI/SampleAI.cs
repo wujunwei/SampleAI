@@ -2,10 +2,10 @@
 using TuringCup;
 using Newtonsoft.Json.Linq;
 
-public class HAHATeam : AIBase
+public class AHhATeam : AIBase
 {
 
-    public HAHATeam(int a_index) : base(a_index) { }
+    public AHhATeam(int a_index) : base(a_index) { }
 
     public override string TeamName
     {
@@ -44,108 +44,110 @@ public class HAHATeam : AIBase
         if (50 < x1 && x1 < 70 && 50 <= z1 && z1 < 70) Move(50, 70);
 
         var targets = state["barrels"].Children();
-       
+
         //追踪
         var BestEnemies = state["enemies"].Children();
-        var BestEnemy = BestEnemies.OrderBy(b => Distance(me, b)).Where(b => ((int)b["state"]&1) !=1).ToArray();
+        var BestEnemy = BestEnemies.OrderBy(b => Distance(me, b)).Where(b => ((int)b["state"] & 1) != 1).ToArray();
         if (BestEnemy.Count() > 0)
         {
             var enemy = BestEnemy[0];
             float enemyX = (float)enemy["pos"]["x"];
             float enemyZ = (float)enemy["pos"]["z"];
-            switch((int)enemy["type"])
+            switch ((int)enemy["type"])
             {
-                case 0:{
+                case 0:
+                    {
 
-                    float distance = (float)System.Math.Sqrt(Distance(me, enemy));
-                    float increaseX = x1 - enemyX;
-                    float increaseZ = z1 - enemyZ;
-                    if (increaseX == 0.0f)
-                    {
-                        float trueZ = enemyZ > z1 ? (enemyZ - 9) : (enemyZ + 9);
-                        Move(x1, trueZ);
+                        float distance = (float)System.Math.Sqrt(Distance(me, enemy));
+                        float increaseX = x1 - enemyX;
+                        float increaseZ = z1 - enemyZ;
+                        if (increaseX == 0.0f)
+                        {
+                            float trueZ = enemyZ > z1 ? (enemyZ - 9) : (enemyZ + 9);
+                            Move(x1, trueZ);
+                        }
+                        else
+                        {
+                            float trueX = enemyX + increaseX * 9 / distance;
+                            float trueZ = enemyZ + increaseZ * 9 / distance;
+                            if (trueX > 0 && trueZ > 0)
+                                Move(trueX, trueZ);
+                        }
+                        break;
                     }
-                    else
+                case 1:
                     {
-                        float trueX = enemyX + increaseX * 9 / distance;
-                        float trueZ = enemyZ + increaseZ * 9 / distance;
-                        if (trueX > 0 && trueZ > 0)
-                            Move(trueX, trueZ);
+               
+                            float distance = (float)System.Math.Sqrt(Distance(me, enemy));
+                            float increaseX = x1 - enemyX;
+                            float increaseZ = z1 - enemyZ;
+
+                            if (increaseX == 0.0f)
+                            {
+                                float trueZ = enemyZ > z1 ? (enemyZ - 8) : (enemyZ + 8);
+                                Move(x1, trueZ);
+                            }
+                            else
+                            {
+                                float trueX = enemyX + increaseX * 8 / distance;
+                                float trueZ = enemyZ + increaseZ * 8 / distance;
+                                if (trueX > 0 && trueZ > 0)
+                                    Move(trueX, trueZ);
+                            }
+
+                   
+
+                        break;
                     }
-                    break;
-                }
-                case 1:{
-                    if ((int)me["hp"] > (int)enemy["hp"])
+                case 2:
                     {
+                        //UnityEngine.Debug.Log("Tyor");
+
                         float distance = (float)System.Math.Sqrt(Distance(me, enemy));
                         float increaseX = x1 - enemyX;
                         float increaseZ = z1 - enemyZ;
 
                         if (increaseX == 0.0f)
                         {
-                            float trueZ = enemyZ > z1 ? (enemyZ - 8) : (enemyZ + 8);
+                            float trueZ = enemyZ > z1 ? (enemyZ - 9) : (enemyZ + 9);
                             Move(x1, trueZ);
                         }
                         else
                         {
-                            float trueX = enemyX + increaseX * 8 / distance;
-                            float trueZ = enemyZ + increaseZ * 8 / distance;
+                            float trueX = enemyX + increaseX * 9 / distance;
+                            float trueZ = enemyZ + increaseZ * 9 / distance;
+                            if (trueX > 0 && trueZ > 0)
+                                Move(trueX, trueZ);
+                        }
+                        break;
+                    }
+                case 3:
+                    {
+                        //UnityEngine.Debug.Log("yui");
+
+                        float distance = (float)System.Math.Sqrt(Distance(me, enemy));
+                        float increaseX = x1 - enemyX;
+                        float increaseZ = z1 - enemyZ;
+                        if (increaseX == 0.0f)
+                        {
+                            float trueZ = enemyZ > z1 ? (enemyZ - 9) : (enemyZ + 9);
+                            Move(x1, trueZ);
+                        }
+                        else
+                        {
+                            float trueX = enemyX + increaseX * 9 / distance;
+                            float trueZ = enemyZ + increaseZ * 9 / distance;
                             if (trueX > 0 && trueZ > 0)
                                 Move(trueX, trueZ);
                         }
 
-                    }
-                   
-                    break;
-                }
-                case 2:
-                {
-                    //UnityEngine.Debug.Log("Tyor");
-                    
-                    float distance = (float)System.Math.Sqrt(Distance(me, enemy));
-                    float increaseX = x1 - enemyX;
-                    float increaseZ = z1 - enemyZ;
 
-                    if (increaseX == 0.0f)
-                    {
-                        float trueZ = enemyZ > z1 ? (enemyZ - 9) : (enemyZ + 9);
-                        Move(x1, trueZ);
+                        break;
                     }
-                    else
+                default:
                     {
-                        float trueX = enemyX + increaseX * 9 / distance;
-                        float trueZ = enemyZ + increaseZ * 9 / distance;
-                        if (trueX > 0 && trueZ > 0)
-                            Move(trueX, trueZ);
+                        break;
                     }
-                    break;
-                }
-                case 3:
-                {
-                    //UnityEngine.Debug.Log("yui");
-
-                    float distance = (float)System.Math.Sqrt(Distance(me,enemy));
-                    float increaseX = x1 - enemyX;
-                    float increaseZ = z1 - enemyZ;
-                    if (increaseX == 0.0f)
-                    {
-                        float trueZ = enemyZ > z1 ? (enemyZ - 9) : (enemyZ + 9);
-                        Move(x1, trueZ);
-                    }
-                    else
-                    {
-                        float trueX = enemyX + increaseX * 9 / distance;
-                        float trueZ = enemyZ + increaseZ * 9 / distance;
-                        if(trueX > 0 && trueZ > 0)
-                            Move(trueX, trueZ);
-                    }
-                    
-
-                    break;
-                }
-                default:{
-                    break;
-                }
             }
         }
         //吃道具
@@ -176,7 +178,8 @@ public class HAHATeam : AIBase
             }
         }
 
-        var enemies = state["enemies"] as JArray;
+        var enemies = state["enemies"].OrderBy(b => (float)b["hp"]) as JArray;
+        
         for (int i = 0; i < enemies.Count; i++)
         {
             var enemy = enemies[i];
@@ -187,7 +190,7 @@ public class HAHATeam : AIBase
             float distan = Distance(me, enemy);
             if (distan > BigRange * BigRange)
             {
-                if (distan > 20*20)
+                if (distan > 20 * 20)
                 {
                     continue;
                 }
@@ -210,7 +213,7 @@ public class HAHATeam : AIBase
                     UseSkill(0, (int)enemy["index"]);
                 }
             }
- 
+
         }
 
         if (targets.Count() > 0)
